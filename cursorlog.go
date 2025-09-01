@@ -21,6 +21,10 @@ func NewCursorLog(path string) (*CursorLog, error) {
 	}, nil
 }
 
+func (cl *CursorLog) Save() error {
+	return cl.state.Save()
+}
+
 func (cl *CursorLog) Close() error {
 	return cl.state.Save()
 }
