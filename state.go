@@ -9,7 +9,6 @@ import (
 	"sync"
 )
 
-// cursorLogState tracks last-read offsets per absolute file path.
 type cursorLogState struct {
 	path  string `json:"-"`
 	dirty bool   `json:"-"`
@@ -53,8 +52,6 @@ func LoadOrCreate(path string) (*cursorLogState, error) {
 	return &st, nil
 }
 
-// Save writes the state JSON atomically to path. If the state is not dirty,
-// Save is a no-op (returns nil).
 func (s *cursorLogState) Save() error {
 	if err := os.MkdirAll(filepath.Dir(s.path), 0o755); err != nil {
 		return fmt.Errorf("create state dir: %w", err)
