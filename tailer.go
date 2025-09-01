@@ -38,11 +38,17 @@ func (t *Tailer) Seek(offset int64, whence int) (int64, error) {
 	return newOff, nil
 }
 
+func (t *Tailer) Sync() {
+	if t.closed {
+		return
+	}
+	t.state.setCursor(t.path, t.current)
+}
+
 func (t *Tailer) Close() error {
 	if t.closed {
 		return nil
 	}
 	t.closed = true
-	t.state.setCursor(t.path, t.current)
 	return t.f.Close()
 }
